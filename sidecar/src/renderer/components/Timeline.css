@@ -1,0 +1,259 @@
+.timeline {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline.empty {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-secondary);
+}
+
+.timeline.empty .hint {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  margin-top: 8px;
+}
+
+.timeline-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.filter-group {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-btn {
+  padding: 6px 12px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+
+.filter-btn:hover {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
+.filter-btn.active {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  color: white;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.toggle input {
+  cursor: pointer;
+}
+
+.tone-summary {
+  background: var(--bg-secondary);
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.tone-summary h4 {
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.tone-chart {
+  display: flex;
+  align-items: flex-end;
+  height: 60px;
+  gap: 4px;
+  padding: 8px;
+  background: var(--bg-primary);
+  border-radius: 4px;
+}
+
+.tone-bar {
+  flex: 1;
+  min-width: 8px;
+  border-radius: 2px;
+  transition: height 0.3s;
+}
+
+.tone-bar.tone-positive {
+  background: var(--status-active-color);
+}
+
+.tone-bar.tone-neutral {
+  background: var(--status-monitoring-color);
+}
+
+.tone-bar.tone-negative {
+  background: var(--error-color);
+}
+
+.tone-legend {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 12px;
+  font-size: 12px;
+}
+
+.tone-legend span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tone-legend span::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.tone-legend .tone-positive::before {
+  background: var(--status-active-color);
+}
+
+.tone-legend .tone-neutral::before {
+  background: var(--status-monitoring-color);
+}
+
+.tone-legend .tone-negative::before {
+  background: var(--error-color);
+}
+
+.timeline-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.date-group {
+  margin-bottom: 24px;
+}
+
+.date-header {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-tertiary);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 12px;
+}
+
+.communications {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.communication-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.communication-item:hover {
+  background: var(--bg-hover);
+}
+
+.comm-icon {
+  font-size: 20px;
+  width: 32px;
+  text-align: center;
+}
+
+.comm-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.comm-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.comm-participants {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.comm-time {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.comm-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.meta-tag {
+  padding: 2px 8px;
+  background: var(--bg-hover);
+  border-radius: 4px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.comm-tone {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.tone-indicator {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.tone-indicator.tone-positive {
+  background: rgba(52, 199, 89, 0.15);
+  color: var(--status-active-color);
+}
+
+.tone-indicator.tone-neutral {
+  background: rgba(255, 159, 10, 0.15);
+  color: var(--status-monitoring-color);
+}
+
+.tone-indicator.tone-negative {
+  background: rgba(255, 59, 48, 0.15);
+  color: var(--error-color);
+}
+
+.comm-preview {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  font-style: italic;
+}

@@ -1,0 +1,494 @@
+.brief {
+  max-width: 900px;
+}
+
+.brief.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.empty-state h3 {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.empty-state p {
+  margin: 0 0 24px;
+  color: var(--text-secondary);
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+.brief-header {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.brief-header h2 {
+  margin: 0 0 12px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.brief-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.risk-badge {
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.risk-badge.risk-low {
+  background: var(--status-resolved-bg);
+  color: var(--status-resolved-color);
+}
+
+.risk-badge.risk-medium {
+  background: var(--status-monitoring-bg);
+  color: var(--status-monitoring-color);
+}
+
+.risk-badge.risk-high {
+  background: var(--status-active-bg);
+  color: var(--status-active-color);
+}
+
+.generated-at {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.brief-section {
+  margin-bottom: 32px;
+}
+
+.brief-section h3 {
+  margin: 0 0 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.summary-box {
+  padding: 20px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  border-left: 4px solid var(--accent-color);
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.stakeholder-briefs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.stakeholder-brief {
+  padding: 20px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+}
+
+.stakeholder-brief .stakeholder-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.stakeholder-brief .stakeholder-header strong {
+  font-size: 16px;
+}
+
+.stakeholder-brief .role {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.tone-badge {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.tone-badge.tone-positive {
+  background: var(--status-active-bg);
+  color: var(--status-active-color);
+}
+
+.tone-badge.tone-neutral {
+  background: var(--bg-hover);
+  color: var(--text-secondary);
+}
+
+.tone-badge.tone-negative {
+  background: var(--status-active-bg);
+  color: var(--error-color);
+}
+
+.tone-badge.tone-mixed {
+  background: var(--status-monitoring-bg);
+  color: var(--status-monitoring-color);
+}
+
+.stakeholder-stance,
+.key-points,
+.suggested-approach {
+  margin-bottom: 12px;
+}
+
+.stakeholder-stance label,
+.key-points label,
+.suggested-approach label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-tertiary);
+  margin-bottom: 4px;
+}
+
+.stakeholder-stance p,
+.suggested-approach p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.key-points ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.key-points li {
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.approach {
+  color: var(--accent-color);
+  font-weight: 500;
+}
+
+.unresolved-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.unresolved-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+}
+
+.type-badge {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.type-badge.type-question {
+  background: #e8f4fd;
+  color: #0077cc;
+}
+
+.type-badge.type-commitment {
+  background: #fef3e2;
+  color: #c77800;
+}
+
+.type-badge.type-decision {
+  background: #f0e8fd;
+  color: #7c3aed;
+}
+
+.type-badge.type-action_item {
+  background: #e8fdf0;
+  color: #059669;
+}
+
+.unresolved-item p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.actions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.action-item {
+  padding: 20px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  border-left: 4px solid var(--accent-color);
+}
+
+.action-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.priority {
+  background: var(--accent-color);
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.action-text {
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.rationale {
+  margin: 0 0 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.questions {
+  background: var(--bg-hover);
+  padding: 12px 16px;
+  border-radius: 6px;
+}
+
+.questions label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-tertiary);
+  margin-bottom: 8px;
+}
+
+.questions ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.questions li {
+  margin-bottom: 6px;
+  font-style: italic;
+  color: var(--text-primary);
+}
+
+.risks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.risk-item {
+  padding: 16px;
+  border-radius: 8px;
+  border-left: 4px solid;
+}
+
+.risk-item.risk-low {
+  background: rgba(52, 199, 89, 0.1);
+  border-left-color: var(--status-resolved-color);
+}
+
+.risk-item.risk-medium {
+  background: rgba(255, 159, 10, 0.1);
+  border-left-color: var(--status-monitoring-color);
+}
+
+.risk-item.risk-high {
+  background: rgba(255, 59, 48, 0.1);
+  border-left-color: var(--error-color);
+}
+
+.risk-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.risk-type {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.severity-badge {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.severity-badge.severity-low {
+  background: var(--status-resolved-bg);
+  color: var(--status-resolved-color);
+}
+
+.severity-badge.severity-medium {
+  background: var(--status-monitoring-bg);
+  color: var(--status-monitoring-color);
+}
+
+.severity-badge.severity-high {
+  background: var(--status-active-bg);
+  color: var(--error-color);
+}
+
+.risk-item > p {
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+
+.evidence {
+  font-size: 13px;
+}
+
+.evidence label {
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.evidence ul {
+  margin: 4px 0 0;
+  padding-left: 20px;
+}
+
+.related-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.related-item {
+  padding: 16px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.related-item:hover {
+  background: var(--bg-hover);
+}
+
+.related-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.status-badge {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-badge.status-active {
+  background: var(--status-active-bg);
+  color: var(--status-active-color);
+}
+
+.status-badge.status-monitoring {
+  background: var(--status-monitoring-bg);
+  color: var(--status-monitoring-color);
+}
+
+.status-badge.status-resolved {
+  background: var(--status-resolved-bg);
+  color: var(--status-resolved-color);
+}
+
+.connection-reason {
+  margin: 0 0 8px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.shared-participants {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.timeline-brief {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.timeline-event {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.event-time {
+  color: var(--text-tertiary);
+  min-width: 120px;
+}
+
+.event-type {
+  padding: 2px 8px;
+  background: var(--bg-hover);
+  border-radius: 4px;
+  font-size: 11px;
+  text-transform: capitalize;
+}
+
+.event-summary {
+  flex: 1;
+  color: var(--text-secondary);
+}
