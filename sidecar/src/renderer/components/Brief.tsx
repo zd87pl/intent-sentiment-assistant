@@ -163,7 +163,7 @@ export function Brief({ brief, onGenerate, isLoading }: BriefProps) {
       )}
 
       {/* Related Situations */}
-      {brief.relatedSituations.length > 0 && (
+      {brief.relatedSituations && brief.relatedSituations.length > 0 && (
         <section className="brief-section">
           <h3>Related Situations</h3>
           <div className="related-list">
@@ -186,7 +186,7 @@ export function Brief({ brief, onGenerate, isLoading }: BriefProps) {
       )}
 
       {/* Timeline Events */}
-      {brief.timeline.length > 0 && (
+      {brief.timeline && brief.timeline.length > 0 && (
         <section className="brief-section">
           <h3>Recent Activity</h3>
           <div className="timeline-brief">

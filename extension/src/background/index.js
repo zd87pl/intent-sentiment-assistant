@@ -37,62 +37,84 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 async function handleMessage(message, sender) {
+  const payload = message.payload || {};
+
   switch (message.type) {
     // Situations
     case 'GET_SITUATIONS':
       return { success: true, data: await getSituations() };
 
     case 'GET_SITUATION':
-      return { success: true, data: await getSituation(message.payload.id) };
+      if (!payload.id) return { success: false, error: 'Missing situation id' };
+      return { success: true, data: await getSituation(payload.id) };
 
     case 'CREATE_SITUATION':
-      return { success: true, data: await createSituation(message.payload) };
+      if (!payload.title) return { success: false, error: 'Missing title' };
+      return { success: true, data: await createSituation(payload) };
 
     case 'UPDATE_SITUATION':
-      return { success: true, data: await updateSituation(message.payload.id, message.payload) };
+      if (!payload.id) return { success: false, error: 'Missing situation id' };
+      return { success: true, data: await updateSituation(payload.id, payload) };
 
     case 'DELETE_SITUATION':
-      await deleteSituation(message.payload.id);
+      if (!payload.id) return { success: false, error: 'Missing situation id' };
+      await deleteSituation(payload.id);
       return { success: true };
 
     // Communications
     case 'ADD_COMMUNICATION':
+      if (!payload.situationId) return { success: false, error: 'Missing situationId' };
+      if (!payload.communication) return { success: false, error: 'Missing communication' };
       return {
         success: true,
-        data: await addCommunication(message.payload.situationId, message.payload.communication)
+        data: await addCommunication(payload.situationId, payload.communication)
       };
+
+    // Capture content from content scripts
+    case 'CAPTURE_CONTENT':
+      // Store captured content temporarily for the side panel to pick up
+      await chrome.storage.local.set({ 'sidecar_pending_capture': payload });
+      return { success: true };
 
     // Participants
     case 'ADD_PARTICIPANT':
+      if (!payload.situationId) return { success: false, error: 'Missing situationId' };
+      if (!payload.participant) return { success: false, error: 'Missing participant' };
       return {
         success: true,
-        data: await addParticipant(message.payload.situationId, message.payload.participant)
+        data: await addParticipant(payload.situationId, payload.participant)
       };
 
     case 'REMOVE_PARTICIPANT':
-      await removeParticipant(message.payload.situationId, message.payload.participantId);
+      if (!payload.situationId || !payload.participantId) {
+        return { success: false, error: 'Missing situationId or participantId' };
+      }
+      await removeParticipant(payload.situationId, payload.participantId);
       return { success: true };
 
     // Brief
     case 'GET_BRIEF':
-      return { success: true, data: await getBrief(message.payload.situationId) };
+      if (!payload.situationId) return { success: false, error: 'Missing situationId' };
+      return { success: true, data: await getBrief(payload.situationId) };
 
     case 'GENERATE_BRIEF':
-      return { success: true, data: await generateBrief(message.payload.situationId) };
+      if (!payload.situationId) return { success: false, error: 'Missing situationId' };
+      return { success: true, data: await generateBrief(payload.situationId) };
 
     // Settings
     case 'GET_SETTINGS':
       return { success: true, data: await getSettings() };
 
     case 'UPDATE_SETTINGS':
-      return { success: true, data: await updateSettings(message.payload) };
+      return { success: true, data: await updateSettings(payload) };
 
     // Data Management
     case 'EXPORT_DATA':
       return { success: true, data: await exportData() };
 
     case 'IMPORT_DATA':
-      await importData(message.payload.data);
+      if (!payload.data) return { success: false, error: 'Missing data' };
+      await importData(payload.data);
       return { success: true };
 
     case 'CLEAR_DATA':
@@ -110,7 +132,8 @@ async function handleMessage(message, sender) {
       return { success: true };
 
     default:
-      return { success: false, error: 'Unknown message type' };
+      console.warn('Unknown message type:', message.type);
+      return { success: false, error: `Unknown message type: ${message.type}` };
   }
 }
 
@@ -339,21 +362,35 @@ JSON Response:`;
     const data = await response.json();
     const responseText = data.response;
 
-    // Parse JSON from response
-    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('Could not parse LLM response');
+    // Parse JSON from response - find the outermost JSON object
+    let analysis;
+    try {
+      // Try to find JSON object in response
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) {
+        throw new Error('No JSON found in response');
+      }
+      analysis = JSON.parse(jsonMatch[0]);
+    } catch (parseError) {
+      console.error('JSON parse error:', parseError);
+      throw new Error('Could not parse LLM response as JSON');
     }
 
-    const analysis = JSON.parse(jsonMatch[0]);
+    // Helper to match stakeholder to participant by name
+    const findParticipantId = (stakeholderName) => {
+      const participant = situation.participants?.find(p =>
+        p.name?.toLowerCase() === stakeholderName?.toLowerCase()
+      );
+      return participant?.id || `unknown-${stakeholderName || 'participant'}`;
+    };
 
     const brief = {
       situationId,
       generatedAt: new Date().toISOString(),
       title: situation.title,
       summary: analysis.summary || 'Analysis not available',
-      stakeholders: (analysis.stakeholders || []).map((s, i) => ({
-        participantId: situation.participants?.[i]?.id || `unknown-${i}`,
+      stakeholders: (analysis.stakeholders || []).map((s) => ({
+        participantId: findParticipantId(s.name),
         name: s.name || 'Unknown',
         role: s.role || 'Participant',
         currentStance: s.currentStance || '',
@@ -487,7 +524,7 @@ async function getStorageUsage() {
 // ============================================================================
 
 function generateId() {
-  return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  return `${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
 }
 
 // ============================================================================

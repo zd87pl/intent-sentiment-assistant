@@ -434,18 +434,18 @@ export async function syncChannelToSituation(
 
   for (const msg of messages) {
     // Check if already imported
-    const exists = await invoke<boolean>('db_query', {
-      sql: "SELECT 1 FROM communications WHERE source = 'slack' AND source_id = ?",
+    const existingResults = await invoke<Array<{ exists: number }>>('db_query', {
+      sql: "SELECT 1 as exists FROM communications WHERE source = 'slack' AND source_id = ?",
       params: [msg.id],
     });
 
-    if (exists) continue;
+    if (existingResults.length > 0) continue;
 
     // Get user info
     const user = await getUser(msg.userId);
 
-    // Create communication record
-    const communication: Communication = {
+    // Create communication record with actual message content
+    const communication: Communication & { content?: string } = {
       id: '', // Will be assigned by database
       situationId,
       source: 'slack' as CommunicationSource,
@@ -453,9 +453,11 @@ export async function syncChannelToSituation(
       timestamp: new Date(parseFloat(msg.timestamp) * 1000),
       participants: [msg.userId],
       contentEncrypted: '', // Will be encrypted by database layer
+      content: msg.text, // Include the actual message text for encryption
       metadata: {
         channel: channelId,
         threadId: msg.threadTs,
+        userName: user.realName || user.name,
       },
     };
 
@@ -467,6 +469,14 @@ export async function syncChannelToSituation(
       for (const reply of replies) {
         if (reply.id === msg.id) continue; // Skip parent message
 
+        // Get user info for reply
+        let replyUser;
+        try {
+          replyUser = await getUser(reply.userId);
+        } catch {
+          replyUser = { id: reply.userId, name: 'Unknown', isBot: false };
+        }
+
         communications.push({
           id: '',
           situationId,
@@ -475,11 +485,13 @@ export async function syncChannelToSituation(
           timestamp: new Date(parseFloat(reply.timestamp) * 1000),
           participants: [reply.userId],
           contentEncrypted: '',
+          content: reply.text, // Include actual message text
           metadata: {
             channel: channelId,
             threadId: msg.timestamp,
+            userName: replyUser.realName || replyUser.name,
           },
-        });
+        } as Communication & { content?: string });
       }
     }
   }

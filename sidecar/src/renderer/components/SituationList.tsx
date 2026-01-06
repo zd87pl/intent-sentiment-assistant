@@ -34,7 +34,7 @@ export function SituationList({ onSelect, selectedId }: SituationListProps) {
     }
   };
 
-  const getStatusColor = (status: SituationStatus) => {
+  const getStatusColor = (status: SituationStatus): string => {
     switch (status) {
       case 'active':
         return 'status-active';
@@ -42,10 +42,12 @@ export function SituationList({ onSelect, selectedId }: SituationListProps) {
         return 'status-monitoring';
       case 'resolved':
         return 'status-resolved';
+      default:
+        return 'status-active';
     }
   };
 
-  const getStatusLabel = (status: SituationStatus) => {
+  const getStatusLabel = (status: SituationStatus): string => {
     switch (status) {
       case 'active':
         return 'Active';
@@ -53,6 +55,8 @@ export function SituationList({ onSelect, selectedId }: SituationListProps) {
         return 'Monitoring';
       case 'resolved':
         return 'Resolved';
+      default:
+        return status;
     }
   };
 

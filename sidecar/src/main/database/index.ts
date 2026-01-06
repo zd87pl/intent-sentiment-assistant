@@ -493,28 +493,53 @@ function dtoToParticipant(dto: ParticipantDTO): Participant {
 }
 
 function dtoToCommunication(dto: CommunicationDTO): Communication {
+  let participants: string[] = [];
+  let metadata: Record<string, unknown> = {};
+
+  try {
+    participants = JSON.parse(dto.participants);
+  } catch {
+    console.warn('Failed to parse participants JSON:', dto.id);
+  }
+
+  try {
+    metadata = JSON.parse(dto.metadata || '{}');
+  } catch {
+    console.warn('Failed to parse metadata JSON:', dto.id);
+  }
+
   return {
     id: dto.id,
     situationId: dto.situation_id,
     source: dto.source,
     sourceId: dto.source_id,
     timestamp: new Date(dto.timestamp),
-    participants: JSON.parse(dto.participants),
+    participants,
     contentEncrypted: dto.content_encrypted,
-    metadata: JSON.parse(dto.metadata || '{}'),
+    metadata,
   };
 }
 
 function dtoToAnalysis(dto: AnalysisDTO): SituationAnalysis {
+  const safeJsonParse = <T>(json: string | null | undefined, defaultValue: T): T => {
+    if (!json) return defaultValue;
+    try {
+      return JSON.parse(json);
+    } catch {
+      console.warn('Failed to parse analysis JSON field');
+      return defaultValue;
+    }
+  };
+
   return {
     generatedAt: new Date(dto.generated_at),
     summary: dto.summary,
-    stakeholderAnalysis: JSON.parse(dto.stakeholder_analysis || '[]'),
-    toneTrajectory: JSON.parse(dto.tone_trajectory || '[]'),
-    unresolvedThreads: JSON.parse(dto.unresolved_threads || '[]'),
-    riskSignals: JSON.parse(dto.risk_signals || '[]'),
-    suggestedActions: JSON.parse(dto.suggested_actions || '[]'),
-    relatedSituations: JSON.parse(dto.related_situations || '[]'),
+    stakeholderAnalysis: safeJsonParse(dto.stakeholder_analysis, []),
+    toneTrajectory: safeJsonParse(dto.tone_trajectory, []),
+    unresolvedThreads: safeJsonParse(dto.unresolved_threads, []),
+    riskSignals: safeJsonParse(dto.risk_signals, []),
+    suggestedActions: safeJsonParse(dto.suggested_actions, []),
+    relatedSituations: safeJsonParse(dto.related_situations, []),
   };
 }
 
