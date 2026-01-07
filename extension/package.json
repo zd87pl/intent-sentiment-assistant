@@ -5,7 +5,9 @@
   "private": true,
   "scripts": {
     "build": "echo 'No build step needed - plain JS extension'",
-    "watch": "echo 'No watch needed - Chrome auto-reloads'"
+    "watch": "echo 'No watch needed - Chrome auto-reloads'",
+    "test": "node --test test/*.test.js",
+    "icons": "node scripts/generate-icons.js"
   },
   "devDependencies": {}
 }
